@@ -12,7 +12,7 @@ async function listHotels(userId: number) {
 }
 
 async function checkTicketAndEnroll(userId: number) {
-  const infoEnroll = await enrollmentRepository.findById(userId);
+  const infoEnroll = await enrollmentRepository.enrollById(userId);
   if (!infoEnroll) throw notFoundError();
 
   const infoTicket = await ticketsRepository.findTicketByEnrollmentId(infoEnroll.id);
