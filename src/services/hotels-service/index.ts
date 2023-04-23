@@ -20,8 +20,6 @@ async function checkTicketAndEnroll(userId: number) {
 
   if (!infoTicket.TicketType.includesHotel || infoTicket.TicketType.isRemote || infoTicket.status !== 'PAID')
     throw paymentErr();
-
-  return;
 }
 
 export default { listHotels };
