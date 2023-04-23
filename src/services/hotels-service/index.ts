@@ -12,7 +12,7 @@ async function listHotels(userId: number) {
 }
 
 async function checkTicketAndEnroll(userId: number) {
-  const infoEnroll = await enrollmentRepository.findWithAddressByUserId(userId);
+  const infoEnroll = await enrollmentRepository.findById(userId);
   if (!infoEnroll) throw notFoundError();
 
   const infoTicket = await ticketsRepository.findTicketByEnrollmentId(infoEnroll.id);
@@ -20,6 +20,8 @@ async function checkTicketAndEnroll(userId: number) {
 
   if (!infoTicket.TicketType.includesHotel || infoTicket.TicketType.isRemote || infoTicket.status !== 'PAID')
     throw paymentErr();
+
+  return;
 }
 
 export default { listHotels };
