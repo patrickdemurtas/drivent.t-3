@@ -4,21 +4,6 @@ import { notFoundError, paymentErr } from '@/errors';
 import ticketsRepository from '@/repositories/tickets-repository';
 import enrollmentRepository from '@/repositories/enrollment-repository';
 
-async function checkTicketAndEnroll(userId: number) {
-  const infoEnrollment = await enrollmentRepository.findWithAddressByUserId(userId);
-
-  if (!infoEnrollment) throw notFoundError();
-
-  const infoTicket = await ticketsRepository.findTicketByEnrollmentId(infoEnrollment.id);
-
-  if (!infoTicket) throw notFoundError();
-
-  if (infoTicket.status !== 'PAID' || !infoTicket.TicketType.includesHotel || infoTicket.TicketType.isRemote)
-    throw paymentErr();
-
-  return;
-}
-
 async function listHotels(userId: number): Promise<Hotel[]> {
   await checkTicketAndEnroll(userId);
 
@@ -40,6 +25,19 @@ async function listRooms(hotelId: string, userId: number): Promise<Hotel & { Roo
   }
 
   return rooms;
+}
+
+async function checkTicketAndEnroll(userId: number) {
+  const infoEnrollment = await enrollmentRepository.findWithAddressByUserId(userId);
+
+  if (!infoEnrollment) throw notFoundError();
+
+  const infoTicket = await ticketsRepository.findTicketByEnrollmentId(infoEnrollment.id);
+
+  if (!infoTicket) throw notFoundError();
+
+  if (infoTicket.status !== 'PAID' || !infoTicket.TicketType.includesHotel || infoTicket.TicketType.isRemote)
+    throw paymentErr();
 }
 
 export default {
