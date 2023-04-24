@@ -10,7 +10,21 @@ export async function listHotels(req: AuthenticatedRequest, res: Response, next:
     const hotels = await hotelsService.listHotels(userId);
 
     return res.status(httpStatus.OK).send(hotels);
-  } catch (e) {
-    next(e);
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function listRooms(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  const { hotelId } = req.params;
+  const { userId } = req;
+
+  if (!hotelId) return res.status(httpStatus.BAD_REQUEST).send('search not found');
+
+  try {
+    const rooms = await hotelsService.listRooms(hotelId, userId);
+    return res.status(httpStatus.OK).send(rooms);
+  } catch (err) {
+    next(err);
   }
 }
