@@ -5,4 +5,6 @@ async function listHotels(): Promise<Hotel[]> {
   return prisma.hotel.findMany();
 }
 
-export default { listHotels };
+const hotelsRepository = { listHotels };
+
+export default hotelsRepository;

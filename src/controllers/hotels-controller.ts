@@ -1,17 +1,16 @@
+import { NextFunction, Response } from 'express';
 import httpStatus from 'http-status';
-import { Response, NextFunction } from 'express';
 import { AuthenticatedRequest } from '@/middlewares';
 import hotelsService from '@/services/hotels-service';
 
-async function listHotels(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+export async function listHotels(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   const { userId } = req;
 
   try {
-    const listOfHotels = await hotelsService.listHotels(userId);
-    return res.status(httpStatus.OK).send(listOfHotels);
+    const hotels = await hotelsService.listHotels(userId);
+
+    return res.status(httpStatus.OK).send(hotels);
   } catch (e) {
     next(e);
   }
 }
-
-export { listHotels };
