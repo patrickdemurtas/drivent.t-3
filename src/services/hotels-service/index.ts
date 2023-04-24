@@ -1,6 +1,6 @@
-import { Hotel, Room } from '@prisma/client';
+import { Hotel } from '@prisma/client';
 import hotelsRepository from '@/repositories/hotels-repository';
-import { notFoundError, paymentRequiredtError } from '@/errors';
+import { notFoundError, paymentErr } from '@/errors';
 import ticketsRepository from '@/repositories/tickets-repository';
 import enrollmentRepository from '@/repositories/enrollment-repository';
 
@@ -13,14 +13,10 @@ async function checkTicketAndEnroll(userId: number) {
 
   if (!infoTicket) throw notFoundError();
 
-  if (
-    infoTicket.status !== 'PAID' ||
-    infoTicket.TicketType.includesHotel === false ||
-    infoTicket.TicketType.isRemote === true
-  )
-    throw paymentRequiredtError();
+  if (infoTicket.status !== 'PAID' || !infoTicket.TicketType.includesHotel || infoTicket.TicketType.isRemote)
+    throw paymentErr();
 
-  return [infoEnrollment, infoTicket];
+  return;
 }
 
 async function listHotels(userId: number): Promise<Hotel[]> {
