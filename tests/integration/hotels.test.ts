@@ -72,7 +72,7 @@ describe('GET /hotels', () => {
 
     it('response: status 402 when the ticket was not paid', async () => {
       const userTest = await createUser();
-      const tokenTest = generateValidToken(userTest);
+      const tokenTest = await generateValidToken(userTest);
       const enrollmentTest = await createEnrollmentWithAddress(userTest);
       const ticketTypeTest = await createTicketType();
       await createTicket(enrollmentTest.id, ticketTypeTest.id, 'RESERVED');
