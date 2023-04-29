@@ -13,3 +13,19 @@ export async function listBooking(req: AuthenticatedRequest, res: Response, next
     next(error);
   }
 }
+
+export async function assignBooking(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  const { roomId } = req.body;
+  const { userId } = req;
+
+  if (!roomId) {
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
+
+  try {
+    const infoIdBooking = await bookingsService.assignBooking(userId, parseInt(roomId));
+    return res.status(httpStatus.OK).send({ bookingId: infoIdBooking });
+  } catch (error) {
+    next(error);
+  }
+}

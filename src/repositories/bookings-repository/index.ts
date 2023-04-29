@@ -16,8 +16,14 @@ async function listBooking(userId: number): Promise<{ Room: Room; id: number }> 
   });
 }
 
+async function assignBooking(userId: number, roomId: number) {
+  const assigBooking = await prisma.booking.create({ data: { userId: userId, roomId: roomId } });
+  return assigBooking.id;
+}
+
 export default {
   bookingsCount,
   checkRoomById,
   listBooking,
+  assignBooking,
 };

@@ -43,4 +43,5 @@ async function checkTicketAndEnroll(userId: number) {
 export default {
   listHotels,
   listRooms,
+  checkTicketAndEnroll,
 };
