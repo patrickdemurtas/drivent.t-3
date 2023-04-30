@@ -1,13 +1,13 @@
 import httpStatus from 'http-status';
 import { Response, NextFunction } from 'express';
 import { AuthenticatedRequest } from '@/middlewares';
-import bookingsService from '@/services/bookings-service';
+import bookingService from '@/services/booking-service';
 
 export async function listBooking(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   const { userId } = req;
 
   try {
-    const infoBooking = await bookingsService.listBooking(userId);
+    const infoBooking = await bookingService.listBooking(userId);
     return res.status(httpStatus.OK).send(infoBooking);
   } catch (error) {
     next(error);
@@ -23,7 +23,7 @@ export async function assignBooking(req: AuthenticatedRequest, res: Response, ne
   }
 
   try {
-    const infoIdBooking = await bookingsService.assignBooking(userId, parseInt(roomId));
+    const infoIdBooking = await bookingService.assignBooking(userId, parseInt(roomId));
     return res.status(httpStatus.OK).send({ bookingId: infoIdBooking });
   } catch (error) {
     next(error);
@@ -40,7 +40,7 @@ export async function changeBooking(req: AuthenticatedRequest, res: Response, ne
   }
 
   try {
-    const bookingUp = await bookingsService.changeBooking(userId, bookingId, parseInt(roomId));
+    const bookingUp = await bookingService.changeBooking(userId, bookingId, parseInt(roomId));
     return res.status(httpStatus.OK).send({ bookingId: bookingUp });
   } catch (error) {
     next(error);
