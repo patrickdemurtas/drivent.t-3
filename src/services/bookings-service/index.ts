@@ -33,8 +33,21 @@ async function assignBooking(userId: number, roomId: number) {
   return await bookingsRepository.assignBooking(userId, roomId);
 }
 
+async function changeBooking(userId: number, bookingId: string, roomId: number) {
+  await checkRoomStatus(roomId);
+  const infoBookingId = Number(bookingId);
+  const infoUserBooking = await bookingsRepository.listBooking(userId);
+
+  if (!infoUserBooking) {
+    throw bookingError();
+  }
+
+  return await bookingsRepository.changeBooking(roomId, infoBookingId, userId);
+}
+
 export default {
   checkRoomStatus,
   listBooking,
   assignBooking,
+  changeBooking,
 };

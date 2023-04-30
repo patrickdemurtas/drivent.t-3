@@ -21,9 +21,18 @@ async function assignBooking(userId: number, roomId: number) {
   return assigBooking.id;
 }
 
+async function changeBooking(roomId: number, bookingId: number, userId: number) {
+  const change = await prisma.booking.update({
+    where: { id: bookingId },
+    data: { roomId: roomId, userId: userId },
+  });
+  return change.id;
+}
+
 export default {
   bookingsCount,
   checkRoomById,
   listBooking,
   assignBooking,
+  changeBooking,
 };
