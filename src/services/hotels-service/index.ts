@@ -37,6 +37,19 @@ async function checkTicketAndEnroll(userId: number) {
   if (!infoTicket) throw notFoundError();
 
   if (infoTicket.status !== 'PAID' || !infoTicket.TicketType.includesHotel || infoTicket.TicketType.isRemote)
+    throw paymentErr();
+}
+
+async function checkTicketAndEnrollBooking(userId: number) {
+  const infoEnrollment = await enrollmentRepository.findWithAddressByUserId(userId);
+
+  if (!infoEnrollment) throw notFoundError();
+
+  const infoTicket = await ticketsRepository.findTicketByEnrollmentId(infoEnrollment.id);
+
+  if (!infoTicket) throw notFoundError();
+
+  if (infoTicket.status !== 'PAID' || !infoTicket.TicketType.includesHotel || infoTicket.TicketType.isRemote)
     throw bookingError();
 }
 
@@ -44,4 +57,5 @@ export default {
   listHotels,
   listRooms,
   checkTicketAndEnroll,
+  checkTicketAndEnrollBooking,
 };

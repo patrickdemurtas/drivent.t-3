@@ -1,6 +1,6 @@
 import hotelsService from '../hotels-service';
-import bookingsRepository from '@/repositories/bookings-repository';
 import { notFoundError, bookingError } from '@/errors';
+import bookingsRepository from '@/repositories/bookings-repository';
 
 async function checkRoomStatus(roomId: number) {
   const infoRoom = await bookingsRepository.checkRoomById(roomId);
@@ -27,7 +27,7 @@ async function listBooking(userId: number) {
 }
 
 async function assignBooking(userId: number, roomId: number) {
-  await hotelsService.checkTicketAndEnroll(roomId);
+  await hotelsService.checkTicketAndEnrollBooking(userId);
   await checkRoomStatus(roomId);
 
   return await bookingsRepository.assignBooking(userId, roomId);

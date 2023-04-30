@@ -42,7 +42,7 @@ export function handleApplicationErrors(
     return res.status(httpStatus.PAYMENT_REQUIRED).send({ message: err.message });
   }
 
-  if (err.name === 'bookingError') {
+  if (err.name === 'BookingError') {
     return res.status(httpStatus.FORBIDDEN).send({ message: err.message });
   }
 
